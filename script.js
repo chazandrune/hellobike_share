@@ -2,11 +2,11 @@ const { createApp, ref } = Vue;
 
 const app = createApp({
     setup() {
-        const selectedBadge = ref('/images/0碳4月计划32.1KM.png');
+        const selectedBadge = ref('./images/0碳4月计划32.1KM.png');
         const badges = ref([
-            '/images/0碳4月计划10KM.png',
-            '/images/0碳4月计划15KM.png',
-            '/images/0碳4月计划32.1KM.png'
+            './images/0碳4月计划10KM.png',
+            './images/0碳4月计划15KM.png',
+            './images/0碳4月计划32.1KM.png'
         ]);
         const nickname = ref('哈啰用户昵称');
         const avatarUrl = ref('/images/avatar.png');
