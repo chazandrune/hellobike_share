@@ -8,11 +8,11 @@ const app = createApp({
             './images/0碳4月计划15KM.png',
             './images/0碳4月计划32.1KM.png'
         ]);
-        const nickname = ref('哈啰用户昵称');
-        const avatarUrl = ref('/images/avatar.png');
+        const nickname = ref('骑行侠');
+        const avatarUrl = ref('./images/avatar.png');
         const rank = ref('1');
         const title = ref('周周骑');
-        const date = ref('周周骑');
+        const date = ref('');
         const settingsPanelOpen = ref(false);
         const generatedImageVisible = ref(false);
         const generatedImageUrl = ref('');
