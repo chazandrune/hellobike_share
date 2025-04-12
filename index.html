@@ -1,1 +1,90 @@
-1111
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徽章分享图生成器</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- 预览图 -->
+        <div class="preview-image">
+            <img src="/images/bg.png" class="img_bg">
+            <div class="absolute img_items text-center">
+                <img :src="selectedBadge" alt="徽章" class="absolute img_badge">
+                <div class="flex justify-center img_userinfo">
+                    <img :src="avatarUrl" alt="个人头像" class="img_avatar rounded-full">
+                    <span class="text-center">{{ nickname }}</span>
+                </div>
+                <h2 class="img_title font-bold">{{ title }}</h2>
+                <p class="img_rank">NO.{{ rank }}</p>
+                <p class="img_date">{{ currentDate }}获得</p>
+            </div>
+        </div>
+        <!-- 遮罩层 -->
+        <div class="settings-mask" :class="{ show: settingsPanelOpen }" @click="toggleSettingsPanel"></div>
+        <!-- 设置面板 -->
+        <div class="settings-panel" :class="{ open: settingsPanelOpen }">
+            <div class="flex flex-wrap -mx-2 mb-4">
+                <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
+                    <label class="block font-bold mb-2">选择徽章</label>
+                    <div class="flex flex-wrap">
+                        <img 
+                            v-for="(badge, index) in badges" 
+                            :key="index" 
+                            :src="badge" 
+                            alt="徽章" 
+                            class="badge-img"
+                            :class="{ selected: selectedBadge === badge }"
+                            @click="selectBadge(badge)"
+                        >
+                    </div>
+                </div>
+                <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
+                    <label class="block font-bold mb-2">个人昵称</label>
+                    <input v-model="nickname" type="text" class="border p-2 w-full">
+                </div>
+                <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
+                    <label class="block font-bold mb-2">上传个人头像</label>
+                    <input @change="handleAvatarUpload" type="file" class="border p-2 w-full">
+                </div>
+                <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
+                    <label class="block font-bold mb-2">名次</label>
+                    <input v-model="rank" type="number" class="border p-2 w-full">
+                </div>
+                <div class="w-full px-2">
+                    <label class="block font-bold mb-2">标题</label>
+                    <input v-model="title" type="text" class="border p-2 w-full">
+                </div>
+            </div>
+            <button @click="toggleSettingsPanel" class="bg-gray-300 text-black p-2 rounded">关闭设置</button>
+        </div>
+        <!-- 底部按钮 -->
+        <div class="fixed bottom-0 left-0 right-0 flex justify-between p-4 bg-white shadow-md">
+            <button @click="toggleSettingsPanel" class="bg-gray-300 text-black p-2 rounded">{{ settingsPanelOpen ? '收起设置' : '打开设置' }}</button>
+            <button @click="generateFinalImage" class="bg-blue-500 text-white p-2 rounded">生成</button>
+        </div>
+        <!-- 生成图片层 -->
+        <div class="generated-image-layer" :class="{ show: generatedImageVisible }">
+            <div class="bg-white p-4 rounded">
+                <img ref="generatedImage" :src="generatedImageUrl" alt="生成的图片">
+            </div>
+            <div class="fixed bottom-0 left-0 right-0 flex justify-between p-4 bg-white shadow-md">
+                <button @click="closeGeneratedImage" class="bg-gray-300 text-black p-2 rounded">关闭</button>
+                <button @click="saveGeneratedImage" class="bg-green-500 text-white p-2 rounded">保存</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+    
